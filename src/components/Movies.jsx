@@ -4,7 +4,8 @@ import '../styles/movies.scss'
 const Movies = ({ movies, viewTrailer, closeCard }) => {
 
     return (
-        <div data-testid="movies">
+        // add styles for the grid layout
+        <div className="movies-grid" data-testid="movies">
             {movies.movies.results?.map((movie) => {
                 return (
                     <Movie 
