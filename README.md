@@ -6,15 +6,15 @@
     <h2>Movieland Take-Home Assessment</h2>
     <h4>React + Redux + RTK + Bootstrap application that fetches movies from <h4>
     <h3> 
-      <a href='https://thymia-mutaremalcolms-projects.vercel.app/', target='_blank'>
+      <a href='https://movie-land-v2-git-main-mutaremalcolms-projects.vercel.app/', target='_blank'>
         <h5>live demo ↗</h5>
       <a/>
     </h3>
-  <p align="center">
-    <a href="https://thymia-mutaremalcolms-projects.vercel.app/'">Report Bug</a>
+  <!-- <p align="center">
+    <a href="https://github.com/mutaremalcolm/movie_land_v2/'">Report Bug</a>
     &nbsp;·&nbsp;
-    <a href="https://thymia-mutaremalcolms-projects.vercel.app/'">Request Feature</a>
-  </p>
+    <a href="https://github.com/mutaremalcolm/movie_land_v2/'">Request Feature</a>
+  </p> -->
 </div>
 
 <!-- -------------------------------------------------------------------------- -->
