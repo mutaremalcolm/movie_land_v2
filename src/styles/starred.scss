@@ -1,4 +1,21 @@
 .starred {
+        // TODO adjust movie layout to use screen space better
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        padding: 20px;
+    
+        @media (max-width: 720px) {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            padding: 10px;
+        }
+    
+        @media (max-width: 480px) {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.5rem;
+            padding: 5px;
+        }
+    
   
     footer {
         margin-top: 50px;

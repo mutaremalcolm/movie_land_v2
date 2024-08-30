@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, createSearchParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchMovies } from './data/moviesSlice';
+import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER, ENDPOINT, API_KEY } from './constants';
 
 import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
-
-import { fetchMovies } from './data/moviesSlice';
-import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER, ENDPOINT, API_KEY } from './constants';
 import Header from './components/Header';
 import Movies from './components/Movies';
 import Starred from './components/Starred';
@@ -15,7 +14,7 @@ import YouTubePlayer from './components/YoutubePlayer';
 import './app.scss';
 
 const App = () => {
-
+  // TODO: refactor
   const state = useSelector((state) => state);
   const { movies } = state;
   const dispatch = useDispatch();
