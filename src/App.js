@@ -1,28 +1,30 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, createSearchParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-
-import 'reactjs-popup/dist/index.css';
-import Popup from 'reactjs-popup';
-
 import { fetchMovies } from './data/moviesSlice';
 import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER, ENDPOINT, API_KEY } from './constants';
+
+import './app.scss';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import Header from './components/Header';
 import Movies from './components/Movies';
 import Starred from './components/Starred';
 import WatchLater from './components/WatchLater';
 import YouTubePlayer from './components/YoutubePlayer';
-import './app.scss';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 
 const App = () => {
-
+  // TODO: refactor
   const state = useSelector((state) => state);
-  const { movies } = state;
+  const { movies } = state.movies;
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('search');
   const [videoKey, setVideoKey] = useState();
   const [isOpen, setOpen] = useState(false);
+  const [hasMore, setHasMore] = useState(true)
   const navigate = useNavigate();
 
   const closeModal = () => setOpen(false);
@@ -46,13 +48,19 @@ const App = () => {
     getSearchResults(query);
   };
 
-  const getMovies = () => {
-    if (searchQuery) {
-      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=` + searchQuery));
-    } else {
-      dispatch(fetchMovies(ENDPOINT_DISCOVER));
+  const getMovies = async () => {
+    const apiUrl = searchQuery ? `${ENDPOINT_SEARCH}&query=` + searchQuery : ENDPOINT_DISCOVER;
+    // Fetch the current page from the state
+    const page = state.movies.currentPage; 
+  
+    const response = await dispatch(fetchMovies({ apiUrl, page }));
+  
+    if (response.payload && response.payload.results.length === 0) {
+      // No more movies to load
+      setHasMore(false); 
     }
   };
+  
 
   const viewTrailer = (movie) => {
     getMovie(movie.id);
@@ -71,10 +79,10 @@ const App = () => {
       setVideoKey(trailer ? trailer.key : videoData.videos.results[0].key);
     }
   };
-
+  
   useEffect(() => {
     getMovies();
-  }, []);
+  }, [searchQuery]);
 
   return (
     <div className="App">
@@ -93,6 +101,19 @@ const App = () => {
               Close
             </button>
           </Popup>
+          <InfiniteScroll
+            dataLength={movies?.length || 0}
+            next={getMovies}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: 'center' }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            <Movies movies={movies} viewTrailer={viewTrailer} closeCard={closeCard} />
+          </InfiniteScroll>
         </div>
 
         <Routes>
